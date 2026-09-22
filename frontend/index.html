@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Predictor – AI-Powered Academic Performance</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Chart.js for data visualisations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ══════════════════════ SIDEBAR ══════════════════════ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo-mark">SP</div>
+    <div class="logo-text">
+      <span class="logo-primary">Student</span><span class="logo-accent">Predictor</span>
+      <div class="logo-sub">Academic Intelligence</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="nav-item active" data-page="dashboard" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+      Dashboard
+    </a>
+    <a class="nav-item" data-page="predict" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 3a4 4 0 110 8 4 4 0 010-8zm0 10c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4z"/></svg>
+      Predict Score
+    </a>
+    <a class="nav-item" data-page="profile" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      Student Profile
+    </a>
+    <a class="nav-item" data-page="insights" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3.5 18.5l6-6 4 4L22 6.92 20.59 5.5l-7.09 8-4-4L2 17l1.5 1.5z"/></svg>
+      Academic Insights
+    </a>
+    <a class="nav-item" data-page="model" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+      Model Performance
+    </a>
+    <a class="nav-item" data-page="analyzer" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2.5 2.1h-15V5h15v14.1zm0-16.1h-15C3.12 3 2 4.12 2 5.5v13C2 19.88 3.12 21 4.5 21h15c1.38 0 2.5-1.12 2.5-2.5v-13C22 4.12 20.88 3 19.5 3z"/></svg>
+      Score Analyzer
+    </a>
+    <a class="nav-item" data-page="about" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+      About Project
+    </a>
+    <a class="nav-item" data-page="settings" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32a.49.49 0 00-.6-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94L14 2.34a.48.48 0 00-.49-.34h-3.84c-.24 0-.44.16-.49.41l-.36 2.54a7.36 7.36 0 00-1.62.94l-2.39-.96a.48.48 0 00-.6.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.6.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.06.24.25.41.49.41h3.84c.24 0 .44-.16.49-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.48 0 .6-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+      Settings
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="model-status">
+      <div class="status-label">AI Prediction Engine</div>
+      <div class="status-row">
+        <span class="status-dot" id="sidebarDot"></span>
+        <span class="status-text" id="sidebarStatus">Checking…</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ══════════════════════ MOBILE TOPBAR ══════════════════════ -->
+<header class="topbar-mobile">
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="topbar-brand">
+    <span class="logo-primary">Student</span><span class="logo-accent">Predictor</span>
+  </div>
+</header>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ══════════════════════ MAIN CONTENT ══════════════════════ -->
+<main class="main-content" id="mainContent">
+
+  <!-- ─────────────── DASHBOARD ─────────────── -->
+  <section class="page" id="page-dashboard">
+    <div class="page-header">
+      <div>
+        <h1 class="greeting" id="greeting">Good morning, Student 👋</h1>
+        <p class="greeting-sub">Understand your academic performance and estimate your exam outcome.</p>
+      </div>
+      <div class="header-badge">
+        <span class="badge-dot" id="headerDot"></span>
+        <span id="headerStatus">Prediction model online</span>
+      </div>
+    </div>
+
+    <!-- Summary cards -->
+    <div class="summary-cards">
+      <div class="card summary-card">
+        <div class="summary-icon icon-blue">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="summary-body">
+          <div class="summary-label">Predicted Score</div>
+          <div class="summary-value" id="dashScore">—</div>
+          <div class="summary-hint">Run a prediction first</div>
+        </div>
+      </div>
+      <div class="card summary-card">
+        <div class="summary-icon icon-green">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="summary-body">
+          <div class="summary-label">Performance Level</div>
+          <div class="summary-value" id="dashLevel">—</div>
+          <div class="summary-hint">Based on predicted score</div>
+        </div>
+      </div>
+      <div class="card summary-card">
+        <div class="summary-icon icon-pink">
+          <svg viewBox="0 0 24 24"><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="summary-body">
+          <div class="summary-label">Avg. Attendance</div>
+          <div class="summary-value" id="dashAtt">—</div>
+          <div class="summary-hint">Dataset average</div>
+        </div>
+      </div>
+      <div class="card summary-card">
+        <div class="summary-icon icon-lavender">
+          <svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        </div>
+        <div class="summary-body">
+          <div class="summary-label">Avg. Study Time</div>
+          <div class="summary-value" id="dashStudy">—</div>
+          <div class="summary-hint">Dataset average</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard charts row -->
+    <div class="dashboard-charts">
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3>Performance Overview</h3>
+          <span class="card-badge">Live data</span>
+        </div>
+        <div class="chart-canvas-wrap">
+          <canvas id="overviewChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card score-ring-card">
+        <div class="card-header">
+          <h3>Prediction Summary</h3>
+        </div>
+        <div class="ring-wrapper">
+          <div class="ring-container">
+            <svg class="ring-svg" viewBox="0 0 200 200">
+              <circle class="ring-bg" cx="100" cy="100" r="80"/>
+              <circle class="ring-fg" id="dashRing" cx="100" cy="100" r="80"
+                      stroke-dasharray="502.65" stroke-dashoffset="502.65"/>
+            </svg>
+            <div class="ring-center">
+              <div class="ring-score" id="dashRingScore">—</div>
+              <div class="ring-label">Predicted Score</div>
+            </div>
+          </div>
+          <div class="ring-range">
+            <span>0</span>
+            <div class="range-bar"><div class="range-fill" id="dashRangeFill"></div></div>
+            <span>100</span>
+          </div>
+          <p class="ring-caption" id="dashRingCaption">Run a prediction to see your score</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prediction history -->
+    <div class="card history-card">
+      <div class="card-header">
+        <h3>Prediction History</h3>
+        <span class="card-hint">Session only – not persisted</span>
+      </div>
+      <div id="historyList" class="history-list">
+        <div class="history-empty">No predictions yet. Head to <strong>Predict Score</strong> to get started.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── PREDICT SCORE ─────────────── -->
+  <section class="page hidden" id="page-predict">
+    <div class="page-header">
+      <div>
+        <h1>Predict Your Exam Score</h1>
+        <p class="greeting-sub">Enter your academic and lifestyle information to estimate your expected exam performance.</p>
+      </div>
+    </div>
+
+    <div class="predict-layout">
+      <!-- Form card -->
+      <div class="card predict-form-card">
+        <div class="predict-form-header">
+          <div class="predict-icon">🎯</div>
+          <div>
+            <h2>Academic Profile</h2>
+            <p>Adjust the sliders to match your current situation</p>
+          </div>
+        </div>
+
+        <form id="predictForm" novalidate>
+          <!-- Study Hours -->
+          <div class="input-group">
+            <div class="input-label-row">
+              <div class="input-label-left">
+                <span class="input-icon">📚</span>
+                <div>
+                  <label for="studyHours">Study Hours Per Day</label>
+                  <div class="input-hint">How many hours do you study on an average day?</div>
+                </div>
+              </div>
+              <span class="slider-value" id="studyHoursVal">5.0 hrs</span>
+            </div>
+            <input type="range" id="studyHours" name="study_hours_per_day"
+                   min="0" max="12" step="0.5" value="5" class="slider" />
+            <div class="slider-range-labels"><span>0 hrs</span><span>12 hrs</span></div>
+          </div>
+
+          <!-- Attendance -->
+          <div class="input-group">
+            <div class="input-label-row">
+              <div class="input-label-left">
+                <span class="input-icon">🏫</span>
+                <div>
+                  <label for="attendance">Attendance Percentage</label>
+                  <div class="input-hint">What percentage of classes do you attend?</div>
+                </div>
+              </div>
+              <span class="slider-value" id="attendanceVal">80%</span>
+            </div>
+            <input type="range" id="attendance" name="attendance_percentage"
+                   min="0" max="100" step="1" value="80" class="slider" />
+            <div class="slider-range-labels"><span>0%</span><span>100%</span></div>
+          </div>
+
+          <!-- Mental Health -->
+          <div class="input-group">
+            <div class="input-label-row">
+              <div class="input-label-left">
+                <span class="input-icon">🧠</span>
+                <div>
+                  <label for="mentalHealth">Mental Health Rating</label>
+                  <div class="input-hint">Rate your overall mental well-being (1 = very poor, 10 = excellent)</div>
+                </div>
+              </div>
+              <span class="slider-value" id="mentalHealthVal">7 / 10</span>
+            </div>
+            <input type="range" id="mentalHealth" name="mental_health_rating"
+                   min="1" max="10" step="1" value="7" class="slider" />
+            <div class="slider-range-labels"><span>1</span><span>10</span></div>
+          </div>
+
+          <!-- Sleep -->
+          <div class="input-group">
+            <div class="input-label-row">
+              <div class="input-label-left">
+                <span class="input-icon">😴</span>
+                <div>
+                  <label for="sleepHours">Sleep Hours Per Night</label>
+                  <div class="input-hint">How many hours do you sleep on an average night?</div>
+                </div>
+              </div>
+              <span class="slider-value" id="sleepHoursVal">7.0 hrs</span>
+            </div>
+            <input type="range" id="sleepHours" name="sleep_hours"
+                   min="0" max="12" step="0.5" value="7" class="slider" />
+            <div class="slider-range-labels"><span>0 hrs</span><span>12 hrs</span></div>
+          </div>
+
+          <!-- Part-time job -->
+          <div class="input-group">
+            <div class="input-label-row">
+              <div class="input-label-left">
+                <span class="input-icon">💼</span>
+                <div>
+                  <label>Part-Time Job</label>
+                  <div class="input-hint">Are you currently working a part-time job?</div>
+                </div>
+              </div>
+            </div>
+            <div class="toggle-group">
+              <label class="toggle-option">
+                <input type="radio" name="part_time_job" value="No" checked />
+                <span class="toggle-btn">No</span>
+              </label>
+              <label class="toggle-option">
+                <input type="radio" name="part_time_job" value="Yes" />
+                <span class="toggle-btn">Yes</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-error" id="formError" style="display:none"></div>
+
+          <button type="submit" class="btn-predict" id="predictBtn">
+            <span class="btn-text">Predict Exam Score</span>
+            <span class="btn-loader hidden" id="btnLoader">
+              <span class="spinner"></span> Analyzing…
+            </span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Result card -->
+      <div class="card result-card" id="resultCard">
+        <div class="result-placeholder" id="resultPlaceholder">
+          <div class="placeholder-icon">🎓</div>
+          <h3>Your Result Appears Here</h3>
+          <p>Fill in your academic profile and click <strong>Predict Exam Score</strong> to see your estimated score.</p>
+        </div>
+
+        <div class="result-content hidden" id="resultContent">
+          <div class="result-badge" id="resultBadge">Good</div>
+          <div class="result-title">Your Predicted Exam Score</div>
+          <div class="result-score" id="resultScore">0.00</div>
+          <div class="result-out">/ 100</div>
+
+          <div class="result-ring-wrap">
+            <svg class="result-ring-svg" viewBox="0 0 180 180">
+              <circle class="ring-bg" cx="90" cy="90" r="72"/>
+              <circle class="ring-fg" id="resultRing" cx="90" cy="90" r="72"
+                      stroke-dasharray="452.39" stroke-dashoffset="452.39"/>
+            </svg>
+            <div class="result-ring-center">
+              <span id="resultRingPct">0</span><span class="pct-symbol">%</span>
+            </div>
+          </div>
+
+          <div class="result-scale">
+            <span>0</span>
+            <div class="scale-bar"><div class="scale-fill" id="scaleFill"></div><div class="scale-marker" id="scaleMarker"></div></div>
+            <span>100</span>
+          </div>
+
+          <div class="result-meta">
+            <div class="meta-row"><span class="meta-key">Model Used</span><span class="meta-val" id="metaModel">Random Forest</span></div>
+            <div class="meta-row"><span class="meta-key">Score Range</span><span class="meta-val">0 – 100</span></div>
+          </div>
+
+          <div class="factor-section">
+            <h4>Student Input Overview</h4>
+            <p class="factor-note">Summary of the values entered – not a causal explanation of your score.</p>
+            <div class="factor-list" id="factorList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── STUDENT PROFILE ─────────────── -->
+  <section class="page hidden" id="page-profile">
+    <div class="page-header">
+      <h1>Student Profile</h1>
+      <p class="greeting-sub">Your personal academic snapshot</p>
+    </div>
+    <div class="profile-layout">
+      <div class="card profile-card">
+        <div class="profile-avatar">SP</div>
+        <div class="profile-fields">
+          <div class="field-group">
+            <label>Student ID</label>
+            <input type="text" id="profileId" class="field-input" placeholder="e.g. STU-2024-001" />
+          </div>
+          <div class="field-group">
+            <label>Full Name</label>
+            <input type="text" id="profileName" class="field-input" placeholder="Your name" />
+          </div>
+          <div class="field-group">
+            <label>Course / Programme</label>
+            <input type="text" id="profileCourse" class="field-input" placeholder="e.g. BSc Computer Science" />
+          </div>
+          <div class="field-group">
+            <label>Year of Study</label>
+            <select id="profileYear" class="field-input">
+              <option value="">Select year</option>
+              <option>Year 1</option><option>Year 2</option>
+              <option>Year 3</option><option>Year 4</option>
+            </select>
+          </div>
+          <button class="btn-save" id="saveProfile">Save Profile</button>
+          <div class="save-confirm hidden" id="saveConfirm">✓ Profile saved</div>
+        </div>
+      </div>
+      <div class="profile-stats">
+        <div class="card stat-card">
+          <div class="stat-label">Latest Prediction</div>
+          <div class="stat-val" id="profileLatest">—</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-label">Performance Level</div>
+          <div class="stat-val" id="profileLevel">—</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-label">Predictions Run</div>
+          <div class="stat-val" id="profileCount">0</div>
+        </div>
+        <div class="card history-card">
+          <div class="card-header"><h3>Academic Snapshot</h3></div>
+          <div id="profileHistory" class="history-list">
+            <div class="history-empty">No predictions yet.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── ACADEMIC INSIGHTS ─────────────── -->
+  <section class="page hidden" id="page-insights">
+    <div class="page-header">
+      <div>
+        <h1>Academic Insights</h1>
+        <p class="greeting-sub">Data visualisations derived from the training dataset — relationships, not causal claims.</p>
+      </div>
+      <div class="dataset-badge" id="datasetBadge">Loading dataset…</div>
+    </div>
+
+    <div class="insights-grid">
+      <div class="card chart-card">
+        <div class="card-header"><h3>Study Hours vs Exam Score</h3></div>
+        <div class="chart-canvas-wrap lg"><canvas id="studyChart"></canvas></div>
+        <p class="chart-caption">Mean exam score by daily study-hour range across the dataset.</p>
+      </div>
+      <div class="card chart-card">
+        <div class="card-header"><h3>Attendance vs Exam Score</h3></div>
+        <div class="chart-canvas-wrap lg"><canvas id="attendanceChart"></canvas></div>
+        <p class="chart-caption">Mean exam score by attendance percentage band.</p>
+      </div>
+      <div class="card chart-card">
+        <div class="card-header"><h3>Sleep Hours vs Exam Score</h3></div>
+        <div class="chart-canvas-wrap lg"><canvas id="sleepChart"></canvas></div>
+        <p class="chart-caption">Mean exam score grouped by nightly sleep duration.</p>
+      </div>
+      <div class="card chart-card">
+        <div class="card-header"><h3>Mental Health Rating vs Exam Score</h3></div>
+        <div class="chart-canvas-wrap lg"><canvas id="mentalChart"></canvas></div>
+        <p class="chart-caption">Mean exam score at each mental health self-rating level (1–10).</p>
+      </div>
+      <div class="card chart-card">
+        <div class="card-header"><h3>Score Distribution</h3></div>
+        <div class="chart-canvas-wrap lg"><canvas id="distChart"></canvas></div>
+        <p class="chart-caption">How exam scores are distributed across the dataset.</p>
+      </div>
+      <div class="card chart-card">
+        <div class="card-header"><h3>Part-Time Job vs Exam Score</h3></div>
+        <div class="chart-canvas-wrap lg"><canvas id="ptjChart"></canvas></div>
+        <p class="chart-caption">Mean exam score for students with and without a part-time job.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── MODEL PERFORMANCE ─────────────── -->
+  <section class="page hidden" id="page-model">
+    <div class="page-header">
+      <div>
+        <h1>Model Performance</h1>
+        <p class="greeting-sub">Evaluation metrics from the training pipeline — real results, nothing fabricated.</p>
+      </div>
+    </div>
+
+    <div class="model-layout">
+      <div class="model-cards" id="modelCards">
+        <!-- populated by JS -->
+      </div>
+
+      <div class="card methodology-card">
+        <h3>Training Methodology</h3>
+        <div class="method-grid">
+          <div class="method-item"><span class="method-key">Dataset</span><span class="method-val">student_habits_performance.csv</span></div>
+          <div class="method-item"><span class="method-key">Dataset Rows Used</span><span class="method-val" id="methodRows">—</span></div>
+          <div class="method-item"><span class="method-key">Train / Test Split</span><span class="method-val">80 / 20</span></div>
+          <div class="method-item"><span class="method-key">Cross Validation</span><span class="method-val">5-Fold</span></div>
+          <div class="method-item"><span class="method-key">Selection Criterion</span><span class="method-val">Lowest RMSE</span></div>
+          <div class="method-item"><span class="method-key">Target Variable</span><span class="method-val">exam_score</span></div>
+          <div class="method-item"><span class="method-key">Features Used</span><span class="method-val">5</span></div>
+          <div class="method-item"><span class="method-key">Random State</span><span class="method-val">42</span></div>
+        </div>
+        <div class="feature-chips">
+          <span class="chip">study_hours_per_day</span>
+          <span class="chip">attendance_percentage</span>
+          <span class="chip">mental_health_rating</span>
+          <span class="chip">sleep_hours</span>
+          <span class="chip">part_time_job</span>
+        </div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="card-header"><h3>RMSE Comparison</h3></div>
+        <div class="chart-canvas-wrap sm scroll-shrink" id="rmseWrap">
+          <canvas id="rmseChart"></canvas>
+        </div>
+      </div>
+      <div class="card chart-card">
+        <div class="card-header"><h3>R² Comparison</h3></div>
+        <div class="chart-canvas-wrap sm scroll-shrink" id="r2Wrap">
+          <canvas id="r2Chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── ABOUT PROJECT ─────────────── -->
+  <section class="page hidden" id="page-about">
+    <div class="page-header">
+      <h1>About This Project</h1>
+      <p class="greeting-sub">A university group project — AI-Powered Academic Performance Prediction</p>
+    </div>
+    <div class="about-layout">
+      <div class="card about-card">
+        <h3>Problem Statement</h3>
+        <p>Students may struggle to understand how their current study habits and academic factors relate to their expected examination performance. Without clear, data-driven feedback, it is difficult to identify areas for improvement before it is too late.</p>
+      </div>
+      <div class="card about-card">
+        <h3>Proposed Solution</h3>
+        <p>An ML-powered web application that uses five key student habit and academic features to estimate an expected exam score. The prediction is produced by a <strong>Random Forest Regressor</strong> trained on a real dataset of student habits and performance.</p>
+      </div>
+      <div class="card about-card pipeline-card">
+        <h3>Machine Learning Pipeline</h3>
+        <div class="pipeline">
+          <div class="pipeline-step">📂 Dataset<div class="ps-sub">student_habits_performance.csv</div></div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step">🧹 Data Cleaning<div class="ps-sub">Drop nulls & duplicates</div></div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step">🔍 EDA<div class="ps-sub">Histograms, scatter plots, correlation</div></div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step">🎯 Feature Selection<div class="ps-sub">5 production features</div></div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step">🔢 Encoding<div class="ps-sub">LabelEncoder → part_time_job</div></div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step">✂️ Train / Test Split<div class="ps-sub">80 / 20 · random_state=42</div></div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step">🏋️ Model Training<div class="ps-sub">Linear Regression, Decision Tree, Random Forest</div></div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step">🔄 Cross Validation<div class="ps-sub">5-Fold GridSearchCV</div></div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step">📊 Evaluation<div class="ps-sub">RMSE &amp; R²</div></div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step">🏆 Best Model<div class="ps-sub">Lowest RMSE selected</div></div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step">💾 Serialisation<div class="ps-sub">joblib → best_model.pkl</div></div>
+        </div>
+      </div>
+      <div class="card about-card">
+        <h3>Dataset</h3>
+        <div class="about-table">
+          <div class="at-row"><span class="at-key">File</span><span class="at-val">student_habits_performance.csv</span></div>
+          <div class="at-row"><span class="at-key">Target</span><span class="at-val">exam_score</span></div>
+          <div class="at-row"><span class="at-key">Features Used</span><span class="at-val">5 (see below)</span></div>
+        </div>
+        <div class="feature-chips" style="margin-top:1rem">
+          <span class="chip">study_hours_per_day</span>
+          <span class="chip">attendance_percentage</span>
+          <span class="chip">mental_health_rating</span>
+          <span class="chip">sleep_hours</span>
+          <span class="chip">part_time_job</span>
+        </div>
+      </div>
+      <div class="card about-card">
+        <h3>Technology Stack</h3>
+        <div class="tech-stack">
+          <div class="tech-item"><span class="tech-icon">🐍</span><div><strong>Python</strong><div class="tech-sub">Core language</div></div></div>
+          <div class="tech-item"><span class="tech-icon">🤖</span><div><strong>scikit-learn</strong><div class="tech-sub">ML models, GridSearchCV</div></div></div>
+          <div class="tech-item"><span class="tech-icon">🧪</span><div><strong>joblib</strong><div class="tech-sub">Model serialisation</div></div></div>
+          <div class="tech-item"><span class="tech-icon">🌐</span><div><strong>Flask</strong><div class="tech-sub">REST API backend</div></div></div>
+          <div class="tech-item"><span class="tech-icon">🎨</span><div><strong>HTML / CSS / JS</strong><div class="tech-sub">Frontend dashboard</div></div></div>
+          <div class="tech-item"><span class="tech-icon">📊</span><div><strong>Chart.js</strong><div class="tech-sub">Data visualisations</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── SCORE ANALYZER ─────────────── -->
+  <section class="page hidden" id="page-analyzer">
+    <div class="page-header">
+      <div>
+        <h1>Score Analyzer</h1>
+        <p class="greeting-sub">Enter one or more students' academic data to compare predicted scores side-by-side.</p>
+      </div>
+      <button class="btn-add-row" id="addRowBtn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        Add Student
+      </button>
+    </div>
+
+    <!-- Bulk entry table -->
+    <div class="card analyzer-card">
+      <div class="card-header" style="padding-bottom:16px;border-bottom:1px solid var(--border)">
+        <h3>Student Data Entry</h3>
+        <span class="card-hint">Fill in each student's data, then click Analyze All</span>
+      </div>
+
+      <div class="analyzer-table-wrap">
+        <table class="analyzer-table" id="analyzerTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Student Label</th>
+              <th>Study Hrs/Day<div class="th-hint">0 – 12</div></th>
+              <th>Attendance %<div class="th-hint">0 – 100</div></th>
+              <th>Mental Health<div class="th-hint">1 – 10</div></th>
+              <th>Sleep Hrs<div class="th-hint">0 – 12</div></th>
+              <th>Part-Time Job</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="analyzerBody">
+            <!-- rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="analyzer-actions">
+        <div class="form-error" id="analyzerError" style="display:none"></div>
+        <button class="btn-predict" id="analyzeBtn" style="max-width:260px">
+          <span class="btn-text">Analyze All Students</span>
+          <span class="btn-loader hidden" id="analyzeBtnLoader">
+            <span class="spinner"></span> Analyzing…
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="analyzerResults" class="hidden">
+      <!-- Summary bar -->
+      <div class="analyzer-summary" id="analyzerSummary"></div>
+
+      <!-- Comparison chart -->
+      <div class="card chart-card analyzer-chart-card">
+        <div class="card-header"><h3>Predicted Score Comparison</h3></div>
+        <canvas id="analyzerChart" height="200"></canvas>
+      </div>
+
+      <!-- Detailed result cards -->
+      <div class="analyzer-result-grid" id="analyzerResultGrid"></div>
+    </div>
+  </section>
+
+  <!-- ─────────────── SETTINGS ─────────────── -->
+  <section class="page hidden" id="page-settings">
+    <div class="page-header">
+      <h1>Settings</h1>
+      <p class="greeting-sub">Customise your Student Predictor experience</p>
+    </div>
+    <div class="settings-layout">
+      <div class="card settings-card">
+        <h3>Appearance</h3>
+        <div class="setting-row">
+          <div><strong>Theme</strong><div class="setting-hint">Currently: Cream Light (default)</div></div>
+          <span class="chip">Cream Light</span>
+        </div>
+      </div>
+      <div class="card settings-card">
+        <h3>Prediction</h3>
+        <div class="setting-row">
+          <div><strong>API Endpoint</strong><div class="setting-hint">Backend URL for predictions</div></div>
+          <span class="chip" id="apiEndpoint">/predict</span>
+        </div>
+        <div class="setting-row">
+          <div><strong>Model Status</strong><div class="setting-hint">Is the ML model loaded?</div></div>
+          <span class="model-status-badge" id="settingsStatus">Checking…</span>
+        </div>
+      </div>
+      <div class="card settings-card">
+        <h3>Data &amp; Privacy</h3>
+        <div class="setting-row">
+          <div><strong>Prediction History</strong><div class="setting-hint">Stored in browser session memory only</div></div>
+          <button class="btn-danger" id="clearHistory">Clear History</button>
+        </div>
+        <div class="setting-row">
+          <div><strong>Profile Data</strong><div class="setting-hint">Stored in browser localStorage only</div></div>
+          <button class="btn-danger" id="clearProfile">Clear Profile</button>
+        </div>
+      </div>
+      <div class="card settings-card">
+        <h3>About</h3>
+        <div class="setting-row"><span class="meta-key">Application</span><span class="meta-val">Student Predictor v1.0</span></div>
+        <div class="setting-row"><span class="meta-key">ML Model</span><span class="meta-val">Random Forest Regressor</span></div>
+        <div class="setting-row"><span class="meta-key">Backend</span><span class="meta-val">Flask + scikit-learn</span></div>
+      </div>
+    </div>
+  </section>
+
+</main><!-- /main-content -->
+
+<script src="app.js"></script>
+</body>
+</html>
