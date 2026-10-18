@@ -1,24 +1,19 @@
 /**
- * app.js  –  Student Predictor Frontend
- * ======================================
- * Handles: navigation, slider interactions, API calls to Flask backend,
- * Chart.js visualisations, prediction history, profile persistence.
- */
+ * app.js  –  Student Predictor Frontend */
 
 "use strict";
 
-/* ── Constants ────────────────────────────────────────────────── */
+/* Constants*/
 const API_BASE = "";   // same origin – Flask serves the frontend
 
-/* ── State ────────────────────────────────────────────────────── */
+/* ── State */
 let predictionHistory = [];     // session-only array of {time, score, label, inputs}
 let lastPrediction    = null;   // most recent prediction result object
 let insightCharts     = {};     // Chart.js instances
 let modelCharts       = {};
 
-/* ══════════════════════════════════════════════════════════════
-   NAVIGATION
-   ══════════════════════════════════════════════════════════════ */
+/*
+   NAVIGATION */
 function showPage(pageId) {
   document.querySelectorAll(".page").forEach(p => p.classList.add("hidden"));
   const target = document.getElementById(`page-${pageId}`);
@@ -45,7 +40,7 @@ document.querySelectorAll(".nav-item").forEach(item => {
   });
 });
 
-/* ── Mobile sidebar ───────────────────────────────────────────── */
+/*  Mobile sidebar  */
 const sidebar        = document.getElementById("sidebar");
 const sidebarOverlay = document.getElementById("sidebarOverlay");
 const menuToggle     = document.getElementById("menuToggle");
@@ -60,9 +55,8 @@ function closeSidebar() {
   sidebarOverlay.classList.remove("active");
 }
 
-/* ══════════════════════════════════════════════════════════════
-   GREETING
-   ══════════════════════════════════════════════════════════════ */
+/* 
+   GREETING */
 function setGreeting() {
   const h = new Date().getHours();
   const g = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
@@ -71,9 +65,7 @@ function setGreeting() {
 }
 setGreeting();
 
-/* ══════════════════════════════════════════════════════════════
-   MODEL HEALTH CHECK
-   ══════════════════════════════════════════════════════════════ */
+/*   MODEL HEALTH CHECK */
 async function checkHealth() {
   try {
     const res  = await fetch(`${API_BASE}/health`);
@@ -106,9 +98,7 @@ function setModelStatus(online, label) {
 
 checkHealth();
 
-/* ══════════════════════════════════════════════════════════════
-   SLIDERS
-   ══════════════════════════════════════════════════════════════ */
+/*    SLIDERS*/
 function initSliders() {
   const sliders = [
     { id: "studyHours",   valId: "studyHoursVal",   fmt: v => `${parseFloat(v).toFixed(1)} hrs` },
@@ -138,9 +128,7 @@ function updateSliderFill(slider) {
 
 initSliders();
 
-/* ══════════════════════════════════════════════════════════════
-   PREDICT FORM
-   ══════════════════════════════════════════════════════════════ */
+/*  PREDICT FORM*/
 const predictForm = document.getElementById("predictForm");
 predictForm.addEventListener("submit", async e => {
   e.preventDefault();
@@ -229,9 +217,8 @@ function showFormError(msg) {
   el.style.display = "block";
 }
 
-/* ══════════════════════════════════════════════════════════════
-   DISPLAY PREDICTION RESULT
-   ══════════════════════════════════════════════════════════════ */
+/* 
+   DISPLAY PREDICTION RESULT*/
 function displayResult(result) {
   const { score, label, color, inputs } = result;
 
@@ -299,9 +286,8 @@ function renderFactors(inputs, score) {
   `).join("");
 }
 
-/* ══════════════════════════════════════════════════════════════
-   DASHBOARD UPDATE
-   ══════════════════════════════════════════════════════════════ */
+/* DASHBOARD UPDATE
+ */
 function updateDashboard(result) {
   const { score, label } = result;
 
@@ -348,9 +334,7 @@ function renderDashboardHistory() {
   `).join("");
 }
 
-/* ══════════════════════════════════════════════════════════════
-   PROFILE PAGE
-   ══════════════════════════════════════════════════════════════ */
+/*    PROFILE PAGE */
 function loadProfile() {
   const profile = JSON.parse(localStorage.getItem("sp_profile") || "{}");
   if (profile.id)     document.getElementById("profileId").value     = profile.id;
@@ -399,9 +383,7 @@ function renderProfileHistory() {
 
 loadProfile();
 
-/* ══════════════════════════════════════════════════════════════
-   ACADEMIC INSIGHTS CHARTS
-   ══════════════════════════════════════════════════════════════ */
+/*    ACADEMIC INSIGHTS CHARTS */
 let insightsLoaded = false;
 
 async function loadInsights() {
@@ -463,10 +445,7 @@ async function loadInsights() {
   }
 }
 
-/* ── Shared Chart.js defaults ────────────────────────────────
-   responsive + maintainAspectRatio:false are REQUIRED so
-   Chart.js fills the .chart-canvas-wrap height rather than
-   collapsing to 0px or stretching beyond bounds.            */
+/* Shared Chart.js defaults  */
 const CHART_DEFAULTS = {
   responsive: true,
   maintainAspectRatio: false,
@@ -553,9 +532,7 @@ function buildLineChart(canvasId, labels, data, yLabel) {
   });
 }
 
-/* ══════════════════════════════════════════════════════════════
-   MODEL PERFORMANCE
-   ══════════════════════════════════════════════════════════════ */
+/* MODEL PERFORMANCE*/
 let metricsLoaded = false;
 
 async function loadModelMetrics() {
@@ -656,7 +633,7 @@ async function loadModelMetrics() {
       });
     }
 
-    // ── Attach scroll-shrink behaviour after charts are built ──
+    // Attach scroll-shrink behaviour after charts are built 
     attachScrollShrink();
 
   } catch (err) {
@@ -664,9 +641,7 @@ async function loadModelMetrics() {
   }
 }
 
-/* ══════════════════════════════════════════════════════════════
-   SETTINGS
-   ══════════════════════════════════════════════════════════════ */
+/* SETTINGS */
 document.getElementById("clearHistory").addEventListener("click", () => {
   predictionHistory = [];
   lastPrediction    = null;
@@ -690,9 +665,7 @@ document.getElementById("clearProfile").addEventListener("click", () => {
   if (yearEl) yearEl.value = "";
 });
 
-/* ══════════════════════════════════════════════════════════════
-   HELPERS
-   ══════════════════════════════════════════════════════════════ */
+/*  HELPERS   */
 function formatTime(date) {
   return date.toLocaleString("en-US", {
     month: "short", day: "numeric",
@@ -711,9 +684,7 @@ function labelClass(label) {
   return map[label] || "label-good";
 }
 
-/* ══════════════════════════════════════════════════════════════
-   OVERVIEW CHART (Dashboard)
-   ══════════════════════════════════════════════════════════════ */
+/*  OVERVIEW CHART (Dashboard)  */
 async function buildOverviewChart() {
   try {
     const res  = await fetch(`${API_BASE}/dataset-stats`);
@@ -778,13 +749,7 @@ async function buildOverviewChart() {
 
 buildOverviewChart();
 
-/* ══════════════════════════════════════════════════════════════
-   SCROLL-SHRINK  (Model Performance bar charts)
-   ══════════════════════════════════════════════════════════════
-   Uses IntersectionObserver to detect when a .scroll-shrink
-   element is less than 20% visible (scrolled past), applying
-   .shrunk which CSS-transitions height+opacity down.
-   Reverses when the element re-enters the viewport.          */
+/*    SCROLL-SHRINK  (Model Performance bar charts)  */
 
 let _shrinkObserver = null;
 
@@ -821,14 +786,10 @@ function attachScrollShrink() {
   targets.forEach(el => _shrinkObserver.observe(el));
 }
 
-/* ══════════════════════════════════════════════════════════════
-   INIT
-   ══════════════════════════════════════════════════════════════ */
+/*  INIT */
 showPage("dashboard");
 
-/* ══════════════════════════════════════════════════════════════
-   SCORE ANALYZER
-   ══════════════════════════════════════════════════════════════ */
+/*  SCORE ANALYZER*/
 
 let analyzerRowCount = 0;
 let analyzerChart    = null;
@@ -845,7 +806,7 @@ const AZ_COLORS_BORDER = [
   "rgba(242,164,176,.8)", "rgba(141,191,168,.8)",
 ];
 
-/* ── Row management ─────────────────────────────────────────── */
+/*  Row management */
 function addAnalyzerRow(defaults = {}) {
   analyzerRowCount++;
   const n   = analyzerRowCount;
@@ -899,7 +860,7 @@ function removeAnalyzerRow(n) {
 
 document.getElementById("addRowBtn").addEventListener("click", () => addAnalyzerRow());
 
-/* ── Read + validate all rows ───────────────────────────────── */
+/*  Read + validate all rows  */
 function readAnalyzerRows() {
   const tbody = document.getElementById("analyzerBody");
   const rows  = Array.from(tbody.querySelectorAll("tr"));
@@ -946,7 +907,7 @@ function readAnalyzerRows() {
   return { students, errors };
 }
 
-/* ── Run analysis ────────────────────────────────────────────── */
+/* Run analysis */
 document.getElementById("analyzeBtn").addEventListener("click", async () => {
   const errEl  = document.getElementById("analyzerError");
   const btnTxt = document.querySelector("#analyzeBtn .btn-text");
@@ -992,12 +953,12 @@ document.getElementById("analyzeBtn").addEventListener("click", async () => {
   }
 });
 
-/* ── Render results ──────────────────────────────────────────── */
+/*Render results */
 function renderAnalyzerResults(data) {
   const container = document.getElementById("analyzerResults");
   container.classList.remove("hidden");
 
-  // ── Summary pills ──
+  //  Summary pills 
   const summary = document.getElementById("analyzerSummary");
   summary.innerHTML = `
     <div class="az-summary-pill">
@@ -1022,7 +983,7 @@ function renderAnalyzerResults(data) {
     </div>
   `;
 
-  // ── Comparison bar chart ──
+  //  Comparison bar chart 
   const ctx = document.getElementById("analyzerChart");
   if (analyzerChart) { analyzerChart.destroy(); analyzerChart = null; }
   analyzerChart = new Chart(ctx, {
