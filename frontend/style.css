@@ -1,8 +1,8 @@
-/* ══════════════════════════════════════════════════════════════
+/*
    Student Predictor  –  Premium Pastel Design System
-   ══════════════════════════════════════════════════════════════ */
+  */
 
-/* ── Tokens ───────────────────────────────────── */
+/* Tokens */
 :root {
   /* Background */
   --bg:          #f8f6f1;
@@ -46,7 +46,7 @@
   --t: .2s ease;
 }
 
-/* ── Reset ───────────────────────────────────────────────────── */
+/* Reset  */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 15px; }
 body {
@@ -59,9 +59,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   SIDEBAR
-   ══════════════════════════════════════════════════════════════ */
+/* SIDEBAR   */
 .sidebar {
   width: var(--sidebar-w);
   background: var(--sidebar-bg);
@@ -129,9 +127,7 @@ body {
 .status-dot.offline { background: #f87171; }
 .status-text  { color: rgba(255,255,255,.6); font-size: .8rem; }
 
-/* ══════════════════════════════════════════════════════════════
-   MOBILE TOPBAR & OVERLAY
-   ══════════════════════════════════════════════════════════════ */
+/*  MOBILE TOPBAR & OVERLAY    */
 .topbar-mobile {
   display: none;
   position: fixed; top: 0; left: 0; right: 0;
@@ -155,9 +151,7 @@ body {
   background: rgba(0,0,0,.45); z-index: 190;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   MAIN CONTENT
-   ══════════════════════════════════════════════════════════════ */
+/*   MAIN CONTENT  */
 .main-content {
   margin-left: var(--sidebar-w);
   flex: 1;
@@ -170,11 +164,11 @@ body {
   box-sizing: border-box;
 }
 
-/* ── Pages ───────────────────────────────────────────────────── */
+/* Pages */
 .page { display: block; }
 .page.hidden { display: none !important; }
 
-/* ── Page header ─────────────────────────────────────────────── */
+/*  Page header */
 .page-header {
   display: flex; justify-content: space-between;
   align-items: flex-start; flex-wrap: wrap; gap: 12px;
@@ -194,9 +188,7 @@ body {
   width: 7px; height: 7px; border-radius: 50%; background: var(--green);
 }
 
-/* ══════════════════════════════════════════════════════════════
-   CARDS
-   ══════════════════════════════════════════════════════════════ */
+/*  CARDS */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -218,9 +210,7 @@ body {
 }
 .card-hint { color: var(--text-muted); font-size: .78rem; }
 
-/* ══════════════════════════════════════════════════════════════
-   SUMMARY CARDS
-   ══════════════════════════════════════════════════════════════ */
+/*   SUMMARY CARDS */
 .summary-cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -245,9 +235,7 @@ body {
 .summary-value { font-size: 1.45rem; font-weight: 700; letter-spacing: -.02em; }
 .summary-hint  { font-size: .72rem; color: var(--text-light); margin-top: 2px; }
 
-/* ══════════════════════════════════════════════════════════════
-   DASHBOARD CHARTS
-   ══════════════════════════════════════════════════════════════ */
+/*  DASHBOARD CHARTS  */
 .dashboard-charts {
   display: grid;
   /* ❷ right column caps at 380px but never overflows */
@@ -299,9 +287,7 @@ body {
 .range-fill { height: 100%; background: var(--lavender); width: 0%; transition: width 1s cubic-bezier(.4,0,.2,1); border-radius: 99px; }
 .ring-caption { font-size: .8rem; color: var(--text-muted); text-align: center; }
 
-/* ══════════════════════════════════════════════════════════════
-   HISTORY
-   ══════════════════════════════════════════════════════════════ */
+/*  HISTORY   */
 .history-card { padding: 0 0 20px; margin-top: 0; }
 .history-list { padding: 0 24px; }
 .history-empty { color: var(--text-muted); font-size: .875rem; padding: 12px 0; }
@@ -321,9 +307,7 @@ body {
 .label-needs       { background: var(--pink-light);  color: #9b2335; }
 .label-at-risk     { background: #fde8e8;            color: #991b1b; }
 
-/* ══════════════════════════════════════════════════════════════
-   PREDICT PAGE
-   ══════════════════════════════════════════════════════════════ */
+/*  PREDICT PAGE    */
 .predict-layout {
   display: grid; grid-template-columns: 1fr 400px; gap: 24px;
 }
@@ -468,9 +452,7 @@ label { font-size: .88rem; font-weight: 600; display: block; }
 .factor-bar-wrap { flex: 1; height: 5px; background: var(--border); border-radius: 99px; margin: 0 10px; overflow: hidden; }
 .factor-bar { height: 100%; border-radius: 99px; transition: width .8s ease; }
 
-/* ══════════════════════════════════════════════════════════════
-   PROFILE PAGE
-   ══════════════════════════════════════════════════════════════ */
+/*  PROFILE PAGE */
 .profile-layout { display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
 .profile-card { padding: 32px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .profile-avatar {
@@ -500,9 +482,7 @@ label { font-size: .88rem; font-weight: 600; display: block; }
 .stat-label { font-size: .78rem; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; }
 .stat-val   { font-size: 1.4rem; font-weight: 800; }
 
-/* ══════════════════════════════════════════════════════════════
-   INSIGHTS PAGE
-   ══════════════════════════════════════════════════════════════ */
+/* INSIGHTS PAGE */
 .insights-grid {
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
 }
@@ -512,9 +492,7 @@ label { font-size: .88rem; font-weight: 600; display: block; }
   border-radius: 100px; padding: 5px 14px; font-size: .78rem; font-weight: 600; white-space: nowrap;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   MODEL PERFORMANCE
-   ══════════════════════════════════════════════════════════════ */
+/*  MODEL PERFORMANCE */
 .model-layout {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
 }
@@ -569,9 +547,7 @@ label { font-size: .88rem; font-weight: 600; display: block; }
   font-family: "SF Mono", "Fira Code", monospace;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   ABOUT PAGE
-   ══════════════════════════════════════════════════════════════ */
+/*ABOUT PAGE */
 .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .about-card { padding: 24px 28px; }
 .about-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
