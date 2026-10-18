@@ -1,12 +1,12 @@
 """
 app.py  –  Student Predictor  –  Flask REST API
-================================================
+
 Exposes three endpoints used by the frontend:
 
     POST /predict       – run the ML model
     GET  /metrics       – model evaluation metrics (from results/metrics.json)
     GET  /dataset-stats – summary statistics from the CSV for the Insights page
-    GET  /health        – simple up-check
+ 
 """
 
 import json
@@ -20,11 +20,11 @@ from flask_cors import CORS
 
 from model import load_model, predict_exam_score, is_model_ready, get_model_error, get_metrics
 
-# ── paths ──────────────────────────────────────────────────────────────────────
+#  paths
 ROOT = Path(__file__).resolve().parent.parent
 DATA_PATH = ROOT / "data" / "student_habits_performance.csv"
 
-# ── app ────────────────────────────────────────────────────────────────────────
+#  app
 app = Flask(__name__, static_folder=str(ROOT / "frontend"), static_url_path="")
 CORS(app)
 
@@ -32,7 +32,7 @@ CORS(app)
 load_model()
 
 
-# ── helpers ────────────────────────────────────────────────────────────────────
+#  helpers 
 
 def _make_error(message: str, status: int = 400):
     return jsonify({"error": message}), status
@@ -65,7 +65,7 @@ def _validate_predict_payload(data: dict):
     return errors
 
 
-# ── routes ─────────────────────────────────────────────────────────────────────
+#  routes 
 
 @app.route("/")
 def serve_index():
@@ -301,7 +301,7 @@ def analyze():
     })
 
 
-# ── run ────────────────────────────────────────────────────────────────────────
+# run 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False)
