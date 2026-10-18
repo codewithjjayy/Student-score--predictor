@@ -1,6 +1,6 @@
 """
 train_model.py
-================
+
 Reproducible training pipeline for the Student Predictor project.
 
 This script is a *faithful, cleaned-up* version of the original
